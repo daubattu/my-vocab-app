@@ -1,63 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import AuthStackNavigation from './src/navigations/authStack.navigation';
+import AppStackNavigation from './src/navigations/appStack.navigation';
+import RootNavigation from './src/navigations';
 
-import Icon from 'react-native-vector-icons/Feather';
-
-import HomeScreen from './screens/HomeScreen';
-import DetailScreen from './screens/DetailScreen';
-import StatisticScreen from './screens/StatisticScreen';
-
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            title: 'Trang chủ',
-            tabBarIcon: () => {
-              return <Icon name='home' size={24} />
-            } 
-          }}
-        />
-        <Tab.Screen
-          name="Home1"
-          component={HomeScreen}
-          options={{
-            title: 'Luyện tập',
-            tabBarIcon: () => {
-              return <Icon name='archive' size={24} />
-            } 
-          }}
-        />
-        <Tab.Screen
-          name="Details"
-          component={StatisticScreen}
-          options={{
-            title: 'Thống kê',
-            tabBarIcon: () => {
-              return <Icon name='trending-up' size={24} />
-            } 
-          }}
-        />
-        <Tab.Screen
-          name="Setting"
-          component={DetailScreen}
-          options={{
-            title: 'Cài đặt',
-            tabBarIcon: () => {
-              return <Icon name='settings' size={24} />
-            } 
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+  const [isSigned, setIsSigned] = useState<boolean>(false)
+
+  return <RootNavigation />
+  // (
+  //   <NavigationContainer>
+  //     <Stack.Navigator screenOptions={{ headerShown: false, animationEnabled: false }}>
+  //       <Stack.Screen name="AuthStackNavigation" component={AuthStackNavigation} />
+  //       <Stack.Screen name="AppStackNavigation" component={AppStackNavigation} />
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 }
 
 export default App;
