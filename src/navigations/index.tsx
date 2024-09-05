@@ -6,7 +6,5 @@ import AuthStackNavigation from './authStack.navigation';
 export default function RootNavigation() {
   const { user } = useAuth();
 
-  console.log(user)
-
   return user ? <AppStackNavigation /> : <AuthStackNavigation />;
 }

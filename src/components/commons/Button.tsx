@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 
-export default function Button({ title, onPress, type, disabled }: { title: string, onPress?: any, type?: string, disabled?: boolean }) {
+export default function Button({ title, onPress, type, disabled, loading }: { title: string, onPress?: any, type?: string, disabled?: boolean, loading?: boolean }) {
   let color = '#343840'
   let textColor = '#fff'
 
@@ -27,12 +27,18 @@ export default function Button({ title, onPress, type, disabled }: { title: stri
       }}
     >
       <Text style={{ color: disabled ? '#697180' : textColor }}>{title}</Text>
+      {
+        loading
+        ? <ActivityIndicator color="#697180" style={{ marginLeft: 8 }} />
+        : null
+      }
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
+    flexDirection: 'row',
     alignItems: 'center',
     height: 36,
     justifyContent: 'center',

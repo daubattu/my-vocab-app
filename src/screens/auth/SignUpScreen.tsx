@@ -1,16 +1,21 @@
 import { Pressable, View } from "react-native";
+import { ToasterHelper } from "react-native-customizable-toast";
 import { Card, Text } from "../../components/commons";
 import TextInput from "../../components/commons/TextInput";
 import Button from "../../components/commons/Button";
 import { useState } from "react";
 import { isValidEmail } from "../../utils";
+import { createUserWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
+import app from "../../configs/firebase.config";
+
+const auth = getAuth(app)
 
 function SignUpScreen({ navigation }: { navigation: any }) {
-  const [email, setEmail] = useState(null)
+  const [email, setEmail] = useState<any>(null)
   const [password, setPassword] = useState<any>(null)
   const [confirmPassword, setConfirmPassword] = useState(null)
-
   const [errors, setErrors] = useState<any>({})
+  const [loading, setLoading] = useState<boolean>(false)
 
   function handleChangeEmail(text: any) {
     setEmail(text)
@@ -28,7 +33,9 @@ function SignUpScreen({ navigation }: { navigation: any }) {
   }
 
 
-  function onSubmit() {
+  async function onSubmit() {
+    setLoading(true)
+
     let isNext = true;
 
     let _errors: any = {}
@@ -52,7 +59,22 @@ function SignUpScreen({ navigation }: { navigation: any }) {
 
     if (!isNext) return
 
-
+    try {
+      await createUserWithEmailAndPassword(auth, email, password)
+      ToasterHelper.show({
+        text: 'Đăng ký thành công',
+        type: 'error',
+        timeout: 5000,
+      });
+    } catch (error: any) {
+      ToasterHelper.show({
+        text: error.message,
+        type: 'error',
+        timeout: 5000,
+      });
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -65,8 +87,9 @@ function SignUpScreen({ navigation }: { navigation: any }) {
         <Button
           title="Đăng ký"
           type="primary"
-          disabled={!email || !password || !confirmPassword || errors?.email || errors?.password || errors?.confirmPassword}
+          disabled={loading || !email || !password || !confirmPassword || errors?.email || errors?.password || errors?.confirmPassword}
           onPress={onSubmit}
+          loading={loading}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
           <Text>Đã có tài khoản? </Text>
