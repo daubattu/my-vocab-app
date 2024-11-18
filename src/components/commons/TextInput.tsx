@@ -23,7 +23,7 @@ const styles: any = {
   }
 }
 
-export default function TextInput({ value, onChangeText, errorMessage, prefixIcon, suffixIcon, style = {}, secureTextEntry = false, placeholder = '', ...rest }: { value?: any, onChangeText?: any, errorMessage?: any, prefixIcon?: any, suffixIcon?: any, secureTextEntry?: boolean, placeholder?: string, style?: any }) {
+export default function TextInput({ value, onChangeText, errorMessage, showMessageError = true, prefixIcon, suffixIcon, style = {}, secureTextEntry = false, placeholder = '', ...rest }: { value?: any, onChangeText?: any, errorMessage?: any, prefixIcon?: any, suffixIcon?: any, secureTextEntry?: boolean, placeholder?: string, style?: any, showMessageError?: any }) {
   const [secureTextEntryStatus, setSecureTextEntryStatus] = useState(true)
 
   return (
@@ -54,13 +54,13 @@ export default function TextInput({ value, onChangeText, errorMessage, prefixIco
               : null
         }
       </View>
-      <View style={{ height: 24, paddingTop: 2 }}>
-        {
-          errorMessage
-          ? <Text style={{ fontSize: 12, color: '#d13438' }}>{errorMessage}</Text>
-          : null
-        }
-      </View>
+      {
+        showMessageError && errorMessage
+        ? <View style={{ height: 24, paddingTop: 2 }}>
+            <Text style={{ fontSize: 12, color: '#d13438' }}>{errorMessage}</Text>
+          </View>
+        : null
+      }
     </>
   );
 }

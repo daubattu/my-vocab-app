@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Text, Card } from "../components/commons";
 import TextInput from "../components/commons/TextInput";
-import { Pressable, TextInput as TextDefault, View } from 'react-native'
+import { TextInput as TextDefault } from 'react-native'
 
-export default function HomeScreen() {
-    const [isEditable, setIsEditable ] = useState(false)
-  
+export default function HomeScreen() {  
     return (
       <Card>
-        <Text style={{ marginBottom: 8 }}>Home Screen 1</Text>
+        <Text style={{ marginBottom: 8 }}>Home Screen</Text>
         <TextInput
           placeholder="Tra từ"
           suffixIcon="search"
