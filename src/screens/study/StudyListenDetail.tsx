@@ -7,14 +7,44 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/commons/Button";
 
+import RNFS from 'react-native-fs';
+
 const listSentences = getArrayRange(0, 40)
 
 function StudyListenDetail({ route }: { route?: any}) {
+  async function handleDownload() {
+    const url = 'https://www.example.com/example.pdf';
+    const filePath = RNFS.DocumentDirectoryPath + '/example.pdf';
+
+    console.log('RNFS.DocumentDirectoryPath', RNFS.DocumentDirectoryPath)
+
+    RNFS.downloadFile({
+      fromUrl: url,
+      toFile: filePath,
+      background: true, // Enable downloading in the background (iOS only)
+      discretionary: true, // Allow the OS to control the timing and speed (iOS only)
+      progress: (res) => {
+        // Handle download progress updates if needed
+        const progress = (res.bytesWritten / res.contentLength) * 100;
+        console.log(`Progress: ${progress.toFixed(2)}%`);
+      },
+    })
+      .promise.then((response) => {
+        console.log('File downloaded!', response);
+      })
+      .catch((err) => {
+        console.log('Download error:', err);
+      });
+  }
+
   return (
     <View style={{ backgroundColor: '#000', flex: 1 }}>
       <Card style={{ marginTop: 8 }}>
         <Text>Level {route.params.level} - Unit {route.params.unit}</Text>
         <Text>A Picnic by the River</Text>
+      </Card>
+      <Card>
+        <Button title="Tải xuống" onPress={handleDownload} />
       </Card>
       <SafeAreaProvider>
         <SafeAreaView style={{ flex: 1, marginTop: 8, marginBottom: 8 }} edges={['top']}>
