@@ -90,7 +90,7 @@ const compareTexts = (text1: any, text2: any) => {
 };
 
 const text1 = "Xin chào, tôi là ChatGPT.";
-const text2 = "Xin chào, tôi là trợ lý AI.";
+const text2 = "Xin chào, tôi là trợ lý AI..";
 console.log(compareTexts(text1, text2)); // Output: % độ giống nhau
 
 export function isValidEmail(email: any){
